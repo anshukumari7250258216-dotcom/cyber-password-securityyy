@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberShield | Advanced Password Security Lab</title>
+<meta name="description" content="CyberShield Advanced Password Security and Entropy Analysis Lab">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --bg:#080d1b;
+  --panel:#111a2e;
+  --blue:#36bafa;
+  --purple:#9875ff;
+  --text:#f3f6ff;
+  --muted:#91a0bd;
+  --border:rgba(255,255,255,.09);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:radial-gradient(ellipse at 50% -20%,#192b53 0%,#080d1b 60%);
+  color:var(--text);
+  font-family:Inter,sans-serif;
+  min-height:100vh;
+}
+header{
+  height:76px;padding:0 8%;
+  display:flex;align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid var(--border);
+  background:rgba(8,13,27,.8);
+}
+.logo{font-size:23px;font-weight:800}
+.logo span{color:var(--blue)}
+.status{color:#65e6a4;font-size:12px}
+.hero{text-align:center;padding:65px 20px 35px}
+.tag{
+  display:inline-block;padding:9px 16px;
+  border:1px solid #31577a;border-radius:30px;
+  color:#65caff;font-size:12px;margin-bottom:20px;
+}
+.hero h1{font-size:clamp(32px,6vw,55px);font-weight:800}
+.hero h1 span{
+  background:linear-gradient(90deg,#38c5ff,#a58aff);
+  -webkit-background-clip:text;color:transparent;
+}
+.hero p{color:var(--muted);margin-top:15px;line-height:1.7}
+.container{
+  max-width:1050px;margin:20px auto 60px;padding:0 20px;
+  display:grid;grid-template-columns:1.2fr .8fr;gap:22px;
+}
+.card{
+  background:linear-gradient(145deg,#14213a,#0e1729);
+  border:1px solid var(--border);
+  border-radius:20px;padding:28px;
+  box-shadow:0 15px 50px #0005;
+}
+.card h2{font-size:19px;margin-bottom:9px}
+.subtitle{font-size:13px;color:var(--muted);margin-bottom:25px}
+.input-wrap{position:relative}
+input{
+  width:100%;padding:17px 100px 17px 16px;
+  background:#080f20;border:1px solid #293c5c;
+  border-radius:11px;color:white;font-size:15px;
+  outline:none;
+}
+input:focus{border-color:var(--blue);box-shadow:0 0 15px #36bafa30}
+.show{
+  position:absolute;right:12px;top:12px;
+  background:none;border:none;color:var(--blue);
+  cursor:pointer;font-weight:600;
+}
+.strength-row{
+  display:flex;justify-content:space-between;
+  margin:23px 0 12px;font-size:13px;
+}
+#strength{color:var(--blue);font-weight:700}
+.meter{height:8px;background:#26334a;border-radius:20px;overflow:hidden}
+#bar{height:100%;width:0%;transition:.3s;border-radius:20px}
+.checks{margin-top:25px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.check{font-size:12px;color:var(--muted)}
+.check span{margin-right:7px}
+.ok{color:#65e6a4}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}
+.stat{
+  padding:17px;background:#080f20;
+  border:1px solid var(--border);border-radius:12px;
+}
+.stat small{color:var(--muted);font-size:11px}
+.stat h3{font-family:"Space Mono";font-size:21px;margin-top:9px;color:#65caff}
+button.action{
+  width:100%;padding:15px;border:0;border-radius:10px;
+  margin-top:17px;background:linear-gradient(90deg,#168edb,#7957ed);
+  color:white;font-weight:700;cursor:pointer;
+  transition:.2s;
+}
+button.action:hover{filter:brightness(1.2);transform:translateY(-2px)}
+.secondary{background:#1c2b45!important;border:1px solid #354b6d!important}
+.generator-output{
+  margin-top:18px;padding:14px;background:#080f20;
+  border-radius:10px;border:1px solid var(--border);
+  font-family:"Space Mono";font-size:12px;
+  word-break:break-all;color:#65caff;min-height:45px;
+}
+.note{font-size:11px;color:var(--muted);line-height:1.7;margin-top:18px}
+footer{
+  text-align:center;padding:28px;
+  border-top:1px solid var(--border);
+  color:var(--muted);font-size:12px;
+}
+@media(max-width:750px){
+  .container{grid-template-columns:1fr}
+  header{padding:0 5%}
+  .hero{padding-top:45px}
+  .checks{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🛡️ Cyber<span>Shield</span></div>
+  <div class="status">● SECURITY LAB ONLINE</div>
+</header>
+
+<section class="hero">
+  <div class="tag">ADVANCED PASSWORD SECURITY SYSTEM</div>
+  <h1>Protect Your <span>Digital Identity</span></h1>
+  <p>Analyze password strength, calculate entropy and generate<br>
+  stronger passwords with our security laboratory.</p>
+</section>
+
+<main class="container">
+
+<section class="card">
+  <h2>🔐 Password Analyzer</h2>
+  <p class="subtitle">Test your password security in real time.</p>
+
+  <div class="input-wrap">
+    <input id="password" type="password"
+      placeholder="Enter password to analyze..."
+      autocomplete="off">
+    <button class="show" id="toggle">SHOW</button>
+  </div>
+
+  <div class="strength-row">
+    <span>Password Strength</span>
+    <span id="strength">Not Tested</span>
+  </div>
+  <div class="meter"><div id="bar"></div></div>
+
+  <div class="checks">
+    <div class="check" id="length">○ 8+ Characters</div>
+    <div class="check" id="upper">○ Uppercase Letter</div>
+    <div class="check" id="lower">○ Lowercase Letter</div>
+    <div class="check" id="number">○ Number (0-9)</div>
+    <div class="check" id="symbol">○ Special Character</div>
+    <div class="check" id="long">○ 12+ Characters</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <small>ENTROPY ESTIMATE</small>
+      <h3 id="entropy">0 bits</h3>
+    </div>
+    <div class="stat">
+      <small>PASSWORD LENGTH</small>
+      <h3 id="count">0</h3>
+    </div>
+  </div>
+  <p class="note">🔒 Privacy: Password analysis happens locally in your browser. Your password is not sent to a server.</p>
+</section>
+
+<section class="card">
+  <h2>⚡ Password Generator</h2>
+  <p class="subtitle">Create a random, stronger password.</p>
+
+  <div class="stat">
+    <small>GENERATED PASSWORD</small>
+    <div class="generator-output" id="generated">Your password will appear here</div>
+  </div>
+
+  <button class="action" id="generate">Generate Secure Password</button>
+  <button class="action secondary" id="copy">Copy Password</button>
+
+  <div class="stat" style="margin-top:22px">
+    <small>SECURITY INFORMATION</small>
+    <h3 style="font-size:16px;color:#65e6a4">Client-Side Protection</h3>
+    <p class="note">Use long, unique passwords. Never reuse the same password across multiple accounts. A password manager and multi-factor authentication add further protection.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>🛡️ CyberShield | Advanced Password Security & Entropy Lab</p>
+  <p style="margin-top:9px">BCA 2nd Year Academic Project | 2026</p>
+</footer>
+
+<script>
+const password = document.getElementById("password");
+const strength = document.getElementById("strength");
+const bar = document.getElementById("bar");
+
+function analyze(){
+  const p = password.value;
+  const tests = {
+    length:p.length>=8,
+    upper:/[A-Z]/.test(p),
+    lower:/[a-z]/.test(p),
+    number:/[0-9]/.test(p),
+    symbol:/[^A-Za-z0-9]/.test(p),
+    long:p.length>=12
+  };
+
+  Object.keys(tests).forEach(key=>{
+    const el=document.getElementById(key);
+    el.className=tests[key]?"check ok":"check";
+    el.innerHTML=(tests[key]?"✓ ":"○ ")+{
+      length:"8+ Characters",
+      upper:"Uppercase Letter",
+      lower:"Lowercase Letter",
+      number:"Number (0-9)",
+      symbol:"Special Character",
+      long:"12+ Characters"
+    }[key];
+  });
+
+  document.getElementById("count").textContent=p.length;
+
+  if(!p){
+    strength.textContent="Not Tested";
+    bar.style.width="0%";
+    document.getElementById("entropy").textContent="0 bits";
+    return;
+  }
+
+  let pool=0;
+  if(/[a-z]/.test(p))pool+=26;
+  if(/[A-Z]/.test(p))pool+=26;
+  if(/[0-9]/.test(p))pool+=10;
+  if(/[^A-Za-z0-9]/.test(p))pool+=33;
+
+  const entropy=pool>0?p.length*Math.log2(pool):0;
+  document.getElementById("entropy").textContent=entropy.toFixed(1)+" bits";
+
+  let score=Object.values(tests).filter(Boolean).length;
+  let label="Weak",percent=20,color="#ff5e75";
+
+  if(score>=5 && entropy>=60){
+    label="Strong";percent=100;color="#65e6a4";
+  }else if(score>=3){
+    label="Medium";percent=60;color="#ffc857";
+  }else if(score>=2){
+    label="Fair";percent=40;color="#ff9b54";
+  }
+
+  strength.textContent=label;
+  strength.style.color=color;
+  bar.style.width=percent+"%";
+  bar.style.background=color;
+}
+
+password.addEventListener("input",analyze);
+
+document.getElementById("toggle").addEventListener("click",()=>{
+  const isHidden=password.type==="password";
+  password.type=isHidden?"text":"password";
+  document.getElementById("toggle").textContent=isHidden?"HIDE":"SHOW";
+});
+
+document.getElementById("generate").addEventListener("click",()=>{
+  const chars="ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*?";
+  const random=new Uint32Array(20);
+  crypto.getRandomValues(random);
+  let result="";
+  for(let i=0;i<20;i++){
+    result+=chars[random[i]%chars.length];
+  }
+  document.getElementById("generated").textContent=result;
+});
+
+document.getElementById("copy").addEventListener("click",async()=>{
+  const value=document.getElementById("generated").textContent;
+  if(value==="Your password will appear here"){
+    alert("Please generate a password first.");
+    return;
+  }
+  try{
+    await navigator.clipboard.writeText(value);
+    alert("Password copied successfully!");
+  }catch(e){
+    alert("Clipboard unavailable. Please copy manually.");
+  }
+});
+</script>
+</body>
+</html>
